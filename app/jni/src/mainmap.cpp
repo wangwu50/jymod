@@ -1132,7 +1132,7 @@ int JY_UnloadWarMap()
 int JY_GetWarMap(int x, int y, int level)
 {
     int s;
-    if (x < 0 || x >= War_XMax || y < 0 || y >= War_YMax || level < 0 || level >= 8)
+    if (x < 0 || x >= War_XMax || y < 0 || y >= War_YMax || level < 0 || level >= 9)
     {
         //JY_Error("GetWarMap error: data out of range! x=%d,y=%d,level=%d\n", x, y, level);
         return 0;
@@ -1147,7 +1147,7 @@ int JY_SetWarMap(int x, int y, int level, int v)
 {
     int s;
 
-    if (x < 0 || x >= War_XMax || y < 0 || y >= War_YMax || level < 0 || level >= 8)
+    if (x < 0 || x >= War_XMax || y < 0 || y >= War_YMax || level < 0 || level >= 9)
     {
         //JY_Error("GetWarMap error: data out of range! x=%d,y=%d,level=%d\n", x, y, level);
         return 0;
@@ -1370,7 +1370,7 @@ int JY_DrawWarMap(int flag, int x, int y, int v1, int v2, int v3, int v4, int v5
                         case 1:
                         case 2:
                         case 5: //人物常规显示
-                            JY_LoadPic(0, pic, x1, y1 - d4, 0, 0);
+                            JY_LoadPic(0, pic, x1, y1 - d4+JY_GetWarMap(xx, yy, 8), 0, 0);
                             break;
                         case 3:
                             if (JY_GetWarMap(xx, yy, 4) > 1)   //命中
