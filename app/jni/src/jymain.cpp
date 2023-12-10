@@ -81,6 +81,7 @@ int g_BX = -1;
 int g_BY = -1;
 
 int g_KeyScale = 100;
+int g_Control = 0;
 
 int g_KeyRepeatDelay = 150;		//第一次键盘重复等待ms数
 int g_KeyRePeatInterval = 30;	//一秒钟重复次数
@@ -402,7 +403,7 @@ int Lua_Config(lua_State* pL_main,const char* filename)
 
     g_KeyRepeatDelay =getfield(pL_main, "KeyRepeatDelay");
     g_KeyRePeatInterval =getfield(pL_main, "KeyRePeatInterval");
-
+    g_Control = getfield(pL_main, "ControlType");
     return 0;
 }
 

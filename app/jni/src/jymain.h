@@ -121,6 +121,7 @@ extern void* g_Tinypot;
 
 extern char *JY_CurrentPath;
 
+extern int g_Control;      //操纵方式
 extern int g_RealScreenW;      //实际的窗口宽度
 extern int g_RealScreenH;      //实际的窗口高度
 

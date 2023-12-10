@@ -9,6 +9,7 @@
 #include "mainmap.h"
 #include "piccache.h"
 #include <map>
+#include <math.h>
 #include <SDL_rwops.h>
 
 HSTREAM currentMusic = 0;            //播放音乐数据，由于同时只播放一个，用一个变量
@@ -120,8 +121,53 @@ int KeyFilter(void* data, SDL_Event* event)
     }
     return r;
 }
+static int getKeyPressByFingerEvent(const SDL_Event *lpEvent)
 
-static int getKeyPressByMouseEvent(const SDL_Event *lpEvent)
+{
+
+    int keyPress=0;
+    int i,index = -1;
+    int mx, my, dx, dy;
+
+    //SDL_GetWindowSize(g_Window, &win_w, &win_h);
+    //mx = lpEvent->button.x * g_ScreenW / win_w;
+    //my = lpEvent->button.y * g_ScreenH / win_h;
+
+    if (g_Rotate) { swap(mx, my); }
+
+
+    switch (lpEvent->type)
+    {
+        case SDL_FINGERMOTION:
+            mx = (lpEvent->tfinger.x) *g_RealScreenW;
+            my = (lpEvent->tfinger.y) * g_RealScreenH;
+            dx = (lpEvent->tfinger.dx) *g_RealScreenW;
+            dy = (lpEvent->tfinger.dy) * g_RealScreenH;
+            if (dx < g_RealScreenW/3*2 && my > g_RealScreenH/4){
+                if (dx>0  && abs(dx) > abs(dy)){
+                    keyPress = SDLK_RIGHT;
+                }
+                if (dx<0 && abs(dx) > abs(dy)){
+                    keyPress = SDLK_LEFT;
+                }
+                if (dy>0 && abs(dx) < abs(dy)){
+                    keyPress = SDLK_DOWN;
+                }
+                if (dy<0 && abs(dx) < abs(dy)){
+                    keyPress = SDLK_UP;
+                }
+            }
+
+            break;
+        case SDL_FINGERUP:
+            keyPress = -1;
+            break;
+    }
+
+    return keyPress;
+}
+
+static int getKeyPressByMouseEvent2(const SDL_Event *lpEvent)
 
 {
 
@@ -135,6 +181,42 @@ static int getKeyPressByMouseEvent(const SDL_Event *lpEvent)
     mx = lpEvent->button.x;
     my = lpEvent->button.y;
 
+    if (g_Rotate) { swap(mx, my); }
+
+
+    switch (lpEvent->type)
+    {
+        case SDL_MOUSEBUTTONUP:
+            if (mx <= g_RealScreenW /3 && my <= g_RealScreenH/4){
+                keyPress = SDLK_s;
+            }else if (mx > g_RealScreenW /3 &&mx <= g_RealScreenW /3 *2 && my <= g_RealScreenH/4){
+                keyPress = SDLK_h;
+            }else if (mx > g_RealScreenW /3 *2 && my <= g_RealScreenH/2){
+                keyPress = SDLK_ESCAPE;
+            }
+            else if (mx > g_RealScreenW /3 *2 && my > g_RealScreenH/2){
+                keyPress = SDLK_RETURN;
+            }
+            break;
+
+    }
+
+    return keyPress;
+}
+
+static int getKeyPressByMouseEvent(const SDL_Event *lpEvent)
+
+{
+    int keyPress=-1;
+    int i,index = -1;
+    int mx, my, win_w, win_h;
+
+    //SDL_GetWindowSize(g_Window, &win_w, &win_h);
+    //mx = lpEvent->button.x * g_ScreenW / win_w;
+    //my = lpEvent->button.y * g_ScreenH / win_h;
+    mx = lpEvent->button.x;
+    my = lpEvent->button.y;
+    JY_Debug("mx,my:%f,%f",mx,my);
     if (g_Rotate) { swap(mx, my); }
 
 
@@ -460,9 +542,9 @@ int InitGame(void)
     Init_Cache();
     JY_PicInit("");        // 初始化贴图cache
 
-
-    InitVitrualButton();
-
+    if (g_Control ==0){
+        InitVitrualButton();
+    }
     return 0;
 }
 
@@ -903,11 +985,16 @@ int JY_GetKey(int* key, int* type, int* mx, int* my)
     *type = -1;
     *mx = -1;
     *my = -1;
-
-
+    int ret = -1;
     while (SDL_PollEvent(&event))
         //if (SDL_PollEvent(&event))
     {
+        if (g_Control == 1){
+            ret = getKeyPressByFingerEvent(&event);
+            if (ret > 0 ) {
+                g_keyPress = ret;
+            }
+        }
         switch (event.type)
         {
             case SDL_KEYDOWN:
@@ -930,10 +1017,12 @@ int JY_GetKey(int* key, int* type, int* mx, int* my)
             case SDL_MOUSEBUTTONDOWN:       //鼠标点击
                 pressFlag = 0;
             case SDL_MOUSEBUTTONUP:     //弹出来
-
                 //方向键是不触发弹起的， 只能ENTER和ESC这种键才会
-                g_keyPress = getKeyPressByMouseEvent(&event);
-
+                if (g_Control == 1){
+                    g_keyPress = getKeyPressByMouseEvent2(&event);
+                }else{
+                    g_keyPress = getKeyPressByMouseEvent(&event);
+                }
                 if(event.type == SDL_MOUSEBUTTONUP && g_keyPress >= 0)
                 {
                     *type = 1;
