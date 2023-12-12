@@ -216,7 +216,6 @@ static int getKeyPressByMouseEvent(const SDL_Event *lpEvent)
     //my = lpEvent->button.y * g_ScreenH / win_h;
     mx = lpEvent->button.x;
     my = lpEvent->button.y;
-    JY_Debug("mx,my:%f,%f",mx,my);
     if (g_Rotate) { swap(mx, my); }
 
 
