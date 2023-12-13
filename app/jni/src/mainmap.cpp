@@ -1054,7 +1054,7 @@ int JY_LoadWarMap(const char* WarIDXfilename, const char* WarGRPfilename, int ma
 {
     FILE* fp;
     int p;
-
+    num = 20;
     War_XMax = x_max;
     War_YMax = y_max;
     War_Num = num;
