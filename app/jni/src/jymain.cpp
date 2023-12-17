@@ -400,6 +400,9 @@ int Lua_Config(lua_State* pL_main,const char* filename)
     g_BY =getfield(pL_main, "BY");
 
     g_KeyScale = getfield(pL_main, "KeyScale");
+    if (g_KeyScale > 1000){
+        g_KeyScale = 100;
+    }
 
     g_KeyRepeatDelay =getfield(pL_main, "KeyRepeatDelay");
     g_KeyRePeatInterval =getfield(pL_main, "KeyRePeatInterval");

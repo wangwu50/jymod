@@ -143,17 +143,18 @@ static int getKeyPressByFingerEvent(const SDL_Event *lpEvent)
             my = (lpEvent->tfinger.y) * g_RealScreenH;
             dx = (lpEvent->tfinger.dx) *g_RealScreenW;
             dy = (lpEvent->tfinger.dy) * g_RealScreenH;
+//            JY_Debug("dx:%d,dy:%d",dx,dy);
             if (dx < g_RealScreenW/3*2 && my > g_RealScreenH/4){
-                if (dx>0  && abs(dx) > abs(dy)){
+                if (dx>5  && abs(dx) > abs(dy)){
                     keyPress = SDLK_RIGHT;
                 }
-                if (dx<0 && abs(dx) > abs(dy)){
+                if (dx<-5 && abs(dx) > abs(dy)){
                     keyPress = SDLK_LEFT;
                 }
-                if (dy>0 && abs(dx) < abs(dy)){
+                if (dy>5 && abs(dx) < abs(dy)){
                     keyPress = SDLK_DOWN;
                 }
-                if (dy<0 && abs(dx) < abs(dy)){
+                if (dy<-5 && abs(dx) < abs(dy)){
                     keyPress = SDLK_UP;
                 }
             }
