@@ -231,9 +231,8 @@ int JY_PicLoadFile(const char* idxfilename, const char* grpfilename, int id, int
 int JY_LoadPic(int fileid, int picid, int x, int y, int flag, int value, int color,
                int width, int height, double rotate, SDL_RendererFlip reversal, int percent)
 {
-    struct CacheNode* newcache, *tmpcache;
-    int xnew, ynew;
-    SDL_Surface* tmpsur;
+    struct CacheNode* newcache;
+    int xnew, ynew, xoff, yoff;
 
     if (pic_file[fileid].type == 1)
     {
@@ -286,24 +285,28 @@ int JY_LoadPic(int fileid, int picid, int x, int y, int flag, int value, int col
     }
     if (width > 0 && height >0)
     {
-        newcache->xoff = newcache->xoff*width / newcache->w;
-        newcache->yoff = newcache->yoff*height /newcache->h;
-        newcache->w = width;
-        newcache->h = height;
+        xoff = newcache->xoff*width / newcache->w;
+        yoff = newcache->yoff*height /newcache->h;
+        width = width;
+        height = height;
     }
     else if (width > 0 && height <= 0)
     {
-        newcache->xoff = newcache->xoff*width / newcache->w;
-        newcache->yoff = newcache->yoff*width / newcache->w;
-        newcache->w = width;
-        newcache->h = newcache->h *width/newcache->w;
+        xoff = newcache->xoff*width / newcache->w;
+        yoff = newcache->yoff*width / newcache->w;
+        width = width;
+        height = newcache->h *width/newcache->w;
     }
     else if (width <= 0 && height > 0)
     {
-        newcache->xoff = newcache->xoff*height / newcache->h;
-        newcache->yoff = newcache->yoff*height / newcache->h;
-        newcache->w = newcache->w *height/newcache->h;
-        newcache->h = height;
+        xoff = newcache->xoff*height / newcache->h;
+        yoff = newcache->yoff*height / newcache->h;
+        width = newcache->w *height/newcache->h;
+        height = height;
+    }
+    else{
+        width = newcache->w;
+        height = newcache->h;
     }
 
     if (flag & 0x00000001)
@@ -313,11 +316,11 @@ int JY_LoadPic(int fileid, int picid, int x, int y, int flag, int value, int col
     }
     else
     {
-        xnew = x - newcache->xoff;
-        ynew = y - newcache->yoff;
+        xnew = x - xoff;
+        ynew = y - yoff;
     }
 //    JY_Debug("g_zoom:%f,width:%d,height:%d,w:%d,h:%d",g_Zoom,width,height,newcache->w,newcache->h);
-    RenderTexture(newcache->t, xnew, ynew, flag, value, color, newcache->w, newcache->h, rotate, reversal, percent);
+    RenderTexture(newcache->t, xnew, ynew, flag, value, color, width, height, rotate, reversal, percent);
     return 0;
 }
 
