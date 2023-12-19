@@ -305,6 +305,8 @@ int JY_LoadPic(int fileid, int picid, int x, int y, int flag, int value, int col
         height = height;
     }
     else{
+        xoff = newcache->xoff;
+        yoff = newcache->yoff;
         width = newcache->w;
         height = newcache->h;
     }
