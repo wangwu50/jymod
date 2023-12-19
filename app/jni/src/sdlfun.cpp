@@ -588,6 +588,8 @@ SDL_Texture* CreateRenderedTexture(int w, int h)
 int JY_LoadPicture(const char* str, int x, int y, int percent)
 {
 
+
+    /*
     static char filename[255] = "\0";
     static SDL_Texture* tex = NULL;
     static SDL_Rect r;
@@ -601,7 +603,8 @@ int JY_LoadPicture(const char* str, int x, int y, int percent)
             pic = NULL;
         }
         return 0;
-    }
+    }*/
+    /*
     if (strcmp(str, filename) != 0)   // 与以前文件名不同，则释放原来表面，加载新表面
     {
         if (tex)
@@ -637,61 +640,59 @@ int JY_LoadPicture(const char* str, int x, int y, int percent)
         JY_Error("JY_LoadPicture: Load picture file %s failed! %s", str, SDL_GetError());
     }
     return 0;
+     */
+    static char filename[255]="\0";
+    static SDL_Texture *pic=NULL;
 
-    /*
-   static char filename[255]="\0";
-   static SDL_Texture *pic=NULL;
+    SDL_Rect r;
 
-   SDL_Rect r;
+    if(strlen(str)==0){        // 为空则释放表面
+        if(pic){
+            SDL_DestroyTexture(pic);
+            pic=NULL;
+        }
+        return 0;
+    }
+    if(strcmp(str,filename)!=0){ // 与以前文件名不同，则释放原来表面，加载新表面
+        if(pic){
+            SDL_DestroyTexture(pic);
+            pic=NULL;
+        }
+        pic = IMG_LoadTexture(g_Renderer,str);
+        if(pic){
+            strcpy(filename,str);
+        }
+    }
 
-   if(strlen(str)==0){        // 为空则释放表面
-       if(pic){
-           SDL_DestroyTexture(pic);
-           pic=NULL;
-       }
-       return 0;
-   }
-   if(strcmp(str,filename)!=0){ // 与以前文件名不同，则释放原来表面，加载新表面
-       if(pic){
-           SDL_DestroyTexture(pic);
-           pic=NULL;
-       }
-       pic = IMG_LoadTexture(g_Renderer,str);
-       if(pic){
-           strcpy(filename,str);
-       }
-   }
-
-   if(pic){
-       int w, h;
-       SDL_QueryTexture(pic, NULL, NULL, &w, &h);
+    if(pic){
+        int w, h;
+        SDL_QueryTexture(pic, NULL, NULL, &w, &h);
 //        if( (x==-1) && (y==-1) ){
 //            x=(g_ScreenW-w)/2;
 //            y=(g_ScreenH-h)/2;
 //        }
-       r.x=x;
-       r.y=y;
-       r.w = w;
-       r.h = h;
-       if(percent != 0 &&  percent != 100){
-           float zoom = (float)(percent/100.0);
-           r.w = (int)(r.w*zoom);
-           r.h = (int)(r.h*zoom);
-       }
-       else if(percent == 0){
-           r.w = g_ScreenW;
-           r.h = g_ScreenH;
-       }
+        r.x=x;
+        r.y=y;
+        r.w = w;
+        r.h = h;
+        if(percent != 0 &&  percent != 100){
+            float zoom = (float)(percent/100.0);
+            r.w = (int)(r.w*zoom);
+            r.h = (int)(r.h*zoom);
+        }
+        else if(percent == 0){
+            r.w = g_ScreenW;
+            r.h = g_ScreenH;
+        }
 //        SDL_RenderCopy(g_Renderer, pic, NULL, &r);
-       RenderToTexture(pic, NULL, g_Texture, &r);
+        RenderToTexture(pic, NULL, g_Texture, &r,NULL,NULL,SDL_FLIP_NONE);
 
-   }
-   else{
-       JY_Debug("JY_LoadPicture: Load picture file %s failed! %s",str, SDL_GetError());
-   }
+    }
+    else{
+        JY_Debug("JY_LoadPicture: Load picture file %s failed! %s",str, SDL_GetError());
+    }
 
-   return 0;
-   */
+    return 0;
 }
 
 

@@ -273,7 +273,6 @@ int JY_LoadPic(int fileid, int picid, int x, int y, int flag, int value, int col
             newcache->xoff = (int)(zoom * newcache->xoff);
             newcache->yoff = (int)(zoom * newcache->yoff);
         }
-
         pic_file[fileid].pcache[picid] = newcache;
     }
     else
@@ -311,19 +310,15 @@ int JY_LoadPic(int fileid, int picid, int x, int y, int flag, int value, int col
             xnew = x - newcache->xoff*bl;
             ynew = y - newcache->yoff*bl;
         }
-        else if (width == 0 && height == 0)    //太极猫调整：宽高都为0则根据zoom值改变贴图大小
+        else if (width <= 0 && height <= 0)    //太极猫调整：宽高都为0则根据zoom值改变贴图大小
         {
-            width = newcache->w*g_Zoom;
-            height = newcache->h*g_Zoom;
-            xnew = x - newcache->xoff*g_Zoom;
-            ynew = y - newcache->yoff*g_Zoom;
-        }
-        else
-        {
+            width = newcache->w;
+            height = newcache->h;
             xnew = x - newcache->xoff;
             ynew = y - newcache->yoff;
         }
     }
+//    JY_Debug("g_zoom:%f,width:%d,height:%d,w:%d,h:%d",g_Zoom,width,height,newcache->w,newcache->h);
     RenderTexture(newcache->t, xnew, ynew, flag, value, color, width, height, rotate, reversal, percent);
     return 0;
 }
@@ -955,6 +950,9 @@ int RenderTexture(SDL_Texture* lps, int x, int y, int flag, int value, int color
     rect.y = y;
     SDL_QueryTexture(lps, NULL, NULL, &rect.w, &rect.h);
 
+    rect.w *= percent / 100.0;
+    rect.h *= percent / 100.0;
+
     if (width > 0 && height > 0)
     {
         rect.w = width;
@@ -999,7 +997,7 @@ int RenderTexture(SDL_Texture* lps, int x, int y, int flag, int value, int color
                 SDL_SetTextureColorMod(lps, 255, 255, 255);
                 SDL_SetTextureBlendMode(lps, SDL_BLENDMODE_NONE);
                 SDL_SetTextureAlphaMod(lps, 255);
-                RenderToTexture(lps, NULL, g_Texture, &rect, rotate, NULL, reversal);
+                RenderToTexture(lps, NULL, g_TextureTmp, &rect, rotate, NULL, reversal);
                 SDL_SetTextureBlendMode(lps, SDL_BLENDMODE_ADD);
                 SDL_SetRenderDrawColor(g_Renderer, 255, 255, 255, 255);
                 SDL_SetRenderDrawBlendMode(g_Renderer, SDL_BLENDMODE_ADD);
@@ -1007,7 +1005,7 @@ int RenderTexture(SDL_Texture* lps, int x, int y, int flag, int value, int color
                 SDL_SetTextureColorMod(g_TextureTmp, 255, 255, 255);
                 SDL_SetTextureBlendMode(g_TextureTmp, SDL_BLENDMODE_BLEND);
                 SDL_SetTextureAlphaMod(g_TextureTmp, (Uint8)value);
-                RenderToTexture(lps, NULL, g_Texture, &rect, rotate, NULL, reversal);
+                RenderToTexture(g_TextureTmp, &rect, g_Texture, &rect, rotate, NULL, reversal);
                 SDL_SetTextureAlphaMod(g_TextureTmp, 255);
             }
             else
@@ -1019,7 +1017,7 @@ int RenderTexture(SDL_Texture* lps, int x, int y, int flag, int value, int color
                 SDL_SetTextureColorMod(lps, 255, 255, 255);
                 SDL_SetTextureBlendMode(lps, SDL_BLENDMODE_NONE);
                 SDL_SetTextureAlphaMod(lps, 255);
-                RenderToTexture(lps, NULL, g_Texture, &rect, rotate, NULL, reversal);
+                RenderToTexture(lps, NULL, g_TextureTmp, &rect, rotate, NULL, reversal);
                 SDL_SetTextureBlendMode(lps, SDL_BLENDMODE_ADD);
                 SDL_SetRenderDrawColor(g_Renderer, r, g, b, a);
                 SDL_SetRenderDrawBlendMode(g_Renderer, SDL_BLENDMODE_ADD);
@@ -1027,7 +1025,7 @@ int RenderTexture(SDL_Texture* lps, int x, int y, int flag, int value, int color
                 SDL_SetTextureColorMod(g_TextureTmp, 255, 255, 255);
                 SDL_SetTextureBlendMode(g_TextureTmp, SDL_BLENDMODE_BLEND);
                 SDL_SetTextureAlphaMod(g_TextureTmp, (Uint8)value);
-                RenderToTexture(lps, NULL, g_Texture, &rect, rotate, NULL, reversal);
+                RenderToTexture(g_TextureTmp, &rect, g_Texture, &rect, rotate, NULL, reversal);
                 SDL_SetTextureAlphaMod(g_TextureTmp, 255);
                 //SDL_SetTextureColorMod(lps, r, g, b);
                 //SDL_SetTextureBlendMode(lps, SDL_BLENDMODE_BLEND);
@@ -1040,7 +1038,7 @@ int RenderTexture(SDL_Texture* lps, int x, int y, int flag, int value, int color
             SDL_SetTextureColorMod(lps, 255, 255, 255);
             SDL_SetTextureBlendMode(lps, SDL_BLENDMODE_BLEND);
             SDL_SetTextureAlphaMod(lps, (Uint8)value);
-            RenderToTexture(lps, NULL, g_Texture, &rect, rotate, NULL, reversal);
+            RenderToTexture(lps, NULL, g_Texture, &rect,rotate, NULL, reversal);
             //SDL_BlitSurface(lps, NULL, g_Surface, &rect);
         }
     }
