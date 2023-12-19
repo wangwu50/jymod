@@ -226,7 +226,7 @@ int JY_PicLoadFile(const char* idxfilename, const char* grpfilename, int id, int
 //  width 宽度
 //  height 长度
 //  rotate 旋转
-//  reversal 反转
+//  reversal 反转 1水平反转，2竖直反转
 //  percent 比例
 int JY_LoadPic(int fileid, int picid, int x, int y, int flag, int value, int color,
                int width, int height, double rotate, SDL_RendererFlip reversal, int percent)
@@ -237,7 +237,7 @@ int JY_LoadPic(int fileid, int picid, int x, int y, int flag, int value, int col
 
     if (pic_file[fileid].type == 1)
     {
-        JY_LoadPNG(fileid, picid, x, y, flag, value, 0,0,-1,-1);
+        JY_LoadPNG(fileid, picid, x, y, flag, value, 0,0,-1,-1,width,height,rotate,reversal, percent);
         return 0;
     }
 
@@ -284,6 +284,27 @@ int JY_LoadPic(int fileid, int picid, int x, int y, int flag, int value, int col
     {
         return 1;
     }
+    if (width > 0 && height >0)
+    {
+        newcache->xoff = newcache->xoff*width / newcache->w;
+        newcache->yoff = newcache->yoff*height /newcache->h;
+        newcache->w = width;
+        newcache->h = height;
+    }
+    else if (width > 0 && height <= 0)
+    {
+        newcache->xoff = newcache->xoff*width / newcache->w;
+        newcache->yoff = newcache->yoff*width / newcache->w;
+        newcache->w = width;
+        newcache->h = newcache->h *width/newcache->w;
+    }
+    else if (width <= 0 && height > 0)
+    {
+        newcache->xoff = newcache->xoff*height / newcache->h;
+        newcache->yoff = newcache->yoff*height / newcache->h;
+        newcache->w = newcache->w *height/newcache->h;
+        newcache->h = height;
+    }
 
     if (flag & 0x00000001)
     {
@@ -292,34 +313,11 @@ int JY_LoadPic(int fileid, int picid, int x, int y, int flag, int value, int col
     }
     else
     {
-        if (width > 0 && height >0)  //太极猫调整：宽高自定义，贴图的位置调整
-        {
-            xnew = x - newcache->xoff*width / newcache->w;
-            ynew = y - newcache->yoff*height /newcache->h;
-        }
-        else if (width > 0 && height <= 0)  //太极猫调整：宽自定义，贴图的位置调整
-        {
-            xnew = x - newcache->xoff*width / newcache->w;
-            ynew = y - newcache->yoff*width / newcache->w;
-        }
-        else if (width <= 0 && height > 0)  //太极猫调整：比利自定义，贴图的位置调整
-        {
-            float bl = height/ 100.0;
-            width = newcache->w*bl;
-            height = newcache->h*bl;
-            xnew = x - newcache->xoff*bl;
-            ynew = y - newcache->yoff*bl;
-        }
-        else if (width <= 0 && height <= 0)    //太极猫调整：宽高都为0则根据zoom值改变贴图大小
-        {
-            width = newcache->w;
-            height = newcache->h;
-            xnew = x - newcache->xoff;
-            ynew = y - newcache->yoff;
-        }
+        xnew = x - newcache->xoff;
+        ynew = y - newcache->yoff;
     }
 //    JY_Debug("g_zoom:%f,width:%d,height:%d,w:%d,h:%d",g_Zoom,width,height,newcache->w,newcache->h);
-    RenderTexture(newcache->t, xnew, ynew, flag, value, color, width, height, rotate, reversal, percent);
+    RenderTexture(newcache->t, xnew, ynew, flag, value, color, newcache->w, newcache->h, rotate, reversal, percent);
     return 0;
 }
 
@@ -688,7 +686,8 @@ int JY_LoadPNGPath(const char* path, int fileid, int num, int percent, const cha
     return 0;
 }
 
-int JY_LoadPNG(int fileid, int picid, int x, int y, int flag, int value, int px, int py, int pw, int ph)
+int JY_LoadPNG(int fileid, int picid, int x, int y, int flag, int value, int px, int py, int pw, int ph,
+               int width,int height,double rotate, SDL_RendererFlip reversal,int percent)
 {
     struct CacheNode* newcache, *tmpcache;
     SDL_Surface* tmpsur;
@@ -824,6 +823,18 @@ int JY_LoadPNG(int fileid, int picid, int x, int y, int flag, int value, int px,
         rect1.w = g_ScreenW;
         rect1.h = g_ScreenH;
     }
+    if (width > 0 && height > 0)
+    {
+        rect1.w = width;
+        rect1.h = height;
+    }
+    else if (width > 0 && height <= 0)
+    {
+        rect1.h = width * rect1.h / rect1.w;
+        rect1.w = width;
+    }
+    rect1.w *= percent / 100.0;
+    rect1.h *= percent / 100.0;
     if((flag & 0x2)==0){        // 没有alpla
 
     }
@@ -831,7 +842,7 @@ int JY_LoadPNG(int fileid, int picid, int x, int y, int flag, int value, int px,
         SDL_SetTextureAlphaMod(newcache->t,(Uint8)value);
     }
     SDL_SetRenderTarget(g_Renderer, g_Texture);
-    SDL_RenderCopy(g_Renderer, newcache->t, &rect2, &rect1);
+    SDL_RenderCopyEx(g_Renderer, newcache->t, &rect2, &rect1,rotate,NULL,reversal);
 
     //r.w = newcache->w;
     //r.h = newcache->h;

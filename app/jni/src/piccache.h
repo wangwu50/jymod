@@ -51,7 +51,7 @@ int JY_PicLoadFile(const char* idxfilename, const char* grpfilename, int id, int
 int JY_LoadPic(int fileid, int picid, int x, int y, int flag, int value,int color = 0, int width = -1, int height = -1, double angle = NULL, SDL_RendererFlip reversal = SDL_FLIP_NONE, int percent = 100);
 int LoadPic(int fileid, int picid, struct CacheNode* cache);
 int JY_LoadPNGPath(const char* path, int fileid, int num, int percent, const char* suffix);
-int JY_LoadPNG(int fileid, int picid, int x, int y, int flag, int value, int px, int py, int pw, int ph);
+int JY_LoadPNG(int fileid, int picid, int x, int y, int flag, int value, int px = 0, int py = 0, int pw = -1, int ph = -1, int width = -1, int height = -1, double angle = NULL, SDL_RendererFlip reversal = SDL_FLIP_NONE, int percent = 100);
 int JY_GetPNGXY(int fileid, int picid, int* w, int* h, int* xoff, int* yoff);
 int JY_GetPicXY(int fileid, int picid, int* w, int* h, int* xoff, int* yoff);
 SDL_Texture* CreateTextureFromRLE(unsigned char* data, int w, int h, int datalong);
