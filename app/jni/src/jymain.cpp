@@ -93,7 +93,7 @@ int g_percentValue = 100;      //缩放的比例
 char *JY_CurrentPath;
 
 lua_State* pL_main = NULL;
-
+ParticleExample g_Particle;
 FILE* debugFP;      //debug.txt的文件指针，就不用每次都打开一遍了
 
 

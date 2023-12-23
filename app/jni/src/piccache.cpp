@@ -78,6 +78,7 @@ int JY_PicInit(const char* PalletteFilename)
             pic_file[i].fp = NULL;
         }
     }
+    JY_LoadPNGPath("cloud", 97, 8, 100*g_Zoom, "png");
     //CacheFailNum = 0;
     return 0;
 }
