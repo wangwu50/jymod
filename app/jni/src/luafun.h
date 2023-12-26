@@ -111,7 +111,6 @@ int HAPI_RestResolution(lua_State* pL);
 int HAPI_GetRealResolution(lua_State* pL);
 
 int HAPI_GetScale(lua_State* pL);
-
 #ifdef __cplusplus
 //}
 #endif
