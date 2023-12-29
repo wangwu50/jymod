@@ -17,7 +17,7 @@ EXTERN_C_BEGIN
 #include "luafun.h"
 
 EXTERN_C_END
-
+#include "ParticleExample.h"
 #include <string>
 using namespace std;
 
@@ -126,3 +126,4 @@ extern int g_RealScreenW;      //实际的窗口宽度
 extern int g_RealScreenH;      //实际的窗口高度
 
 extern int g_percentValue;      //缩放的比例
+extern ParticleExample g_Particle;

@@ -545,6 +545,9 @@ int InitGame(void)
     if (g_Control ==0){
         InitVitrualButton();
     }
+    g_Particle.setRenderer(g_Renderer);
+    g_Particle.setPosition(w / 2, 0);
+    g_Particle.getDefaultTexture();
     return 0;
 }
 

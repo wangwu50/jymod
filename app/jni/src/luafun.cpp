@@ -9,6 +9,7 @@
 #include "sdlfun.h"
 #include "piccache.h"
 #include "mainmap.h"
+#include "ParticleExample.h"
 
 //以下为所有包装的lua接口函数，对应于每个实际的函数
 
