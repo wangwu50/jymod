@@ -566,10 +566,10 @@ int ExitGame(void)
     return 0;
 }
 
-int RenderToTexture(SDL_Texture* src, SDL_Rect* src_rect, SDL_Texture* dst, SDL_Rect* dst_rect)
+int RenderToTexture(SDL_Texture* src, SDL_Rect* src_rect, SDL_Texture* dst, SDL_Rect* dst_rect, double angle, SDL_Point*center, SDL_RendererFlip filp)
 {
     SDL_SetRenderTarget(g_Renderer, dst);
-    return SDL_RenderCopy(g_Renderer, src, src_rect, dst_rect);
+    return SDL_RenderCopyEx(g_Renderer, src, src_rect, dst_rect, angle, center, filp);
 }
 
 SDL_Texture* CreateRenderedTexture(SDL_Texture* ref)
@@ -636,7 +636,7 @@ int JY_LoadPicture(const char* str, int x, int y, int percent)
     }
     if (tex)
     {
-        RenderToTexture(tex, NULL, g_Texture, &r);
+        RenderToTexture(tex, NULL, g_Texture, &r, NULL, NULL, SDL_FLIP_NONE);
     }
     else
     {
@@ -688,7 +688,7 @@ int JY_LoadPicture(const char* str, int x, int y, int percent)
             r.h = g_ScreenH;
         }
 //        SDL_RenderCopy(g_Renderer, pic, NULL, &r);
-        RenderToTexture(pic, NULL, g_Texture, &r);
+        RenderToTexture(pic, NULL, g_Texture, &r,NULL,NULL,SDL_FLIP_NONE);
 
     }
     else{
