@@ -1229,7 +1229,7 @@ int JY_UnloadWarMap()
 int JY_GetWarMap(int x, int y, int level)
 {
     int s;
-    if (x < 0 || x >= War_XMax || y < 0 || y >= War_YMax || level < 0 || level >= 8)
+    if (x < 0 || x >= War_XMax || y < 0 || y >= War_YMax || level < 0 || level >= 10)
     {
         //JY_Error("GetWarMap error: data out of range! x=%d,y=%d,level=%d\n", x, y, level);
         return 0;
@@ -1244,7 +1244,7 @@ int JY_SetWarMap(int x, int y, int level, int v)
 {
     int s;
 
-    if (x < 0 || x >= War_XMax || y < 0 || y >= War_YMax || level < 0 || level >= 8)
+    if (x < 0 || x >= War_XMax || y < 0 || y >= War_YMax || level < 0 || level >= 10)
     {
         //JY_Error("GetWarMap error: data out of range! x=%d,y=%d,level=%d\n", x, y, level);
         return 0;
@@ -1281,6 +1281,7 @@ int JY_CleanWarMap(int level, int v)
 
 int JY_DrawWarMap(int flag, int x, int y, int v1, int v2, int v3, int v4, int v5, int ex, int ey)
 {
+    //JY_Debug("flag:%d, x:%d,y:%d,v1:%d,v2:%d,v3:%d,v4:%d,v5:%d,ex:%d,ey:%d",flag,x,y,v1,v2,v3,v4,v5,ex,ey);
     //int rangex=g_ScreenW/(2*g_XScale)/2+1+g_WMapAddX;
     //int rangey=g_ScreenH/(2*g_YScale)/2+1 ;
     int i, j;

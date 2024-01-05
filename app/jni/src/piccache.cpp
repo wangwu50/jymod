@@ -967,9 +967,6 @@ int RenderTexture(SDL_Texture* lps, int x, int y, int flag, int value, int color
     rect.y = y;
     SDL_QueryTexture(lps, NULL, NULL, &rect.w, &rect.h);
 
-    rect.w *= percent / 100.0;
-    rect.h *= percent / 100.0;
-
     if (width > 0 && height > 0)
     {
         rect.w = width;
@@ -980,6 +977,8 @@ int RenderTexture(SDL_Texture* lps, int x, int y, int flag, int value, int color
         rect.h = width * rect.h / rect.w;
         rect.w = width;
     }
+    rect.w *= percent / 100.0;
+    rect.h *= percent / 100.0;
     rect0 = rect;
     rect0.x = 0;
     rect0.y = 0;
@@ -991,9 +990,6 @@ int RenderTexture(SDL_Texture* lps, int x, int y, int flag, int value, int color
 
     if ((flag & 0x2) == 0)          // Ã»ÓÐalpha
     {
-        SDL_SetTextureColorMod(lps, 255, 255, 255);
-        SDL_SetTextureBlendMode(lps, SDL_BLENDMODE_BLEND);
-        SDL_SetTextureAlphaMod(lps, 255);
         RenderToTexture(lps, NULL, g_Texture, &rect, rotate, NULL, reversal);
         //SDL_BlitSurface(lps, NULL, g_Surface, &rect);
     }
@@ -1001,40 +997,34 @@ int RenderTexture(SDL_Texture* lps, int x, int y, int flag, int value, int color
     {
         if ((flag & 0x4) || (flag & 0x8) || (flag & 0x10))     // 4-ºÚ, 8-°×, 16-ÑÕÉ«
         {
-            Uint8 r, g, b, a;
-            if(flag &0x4)
-            {
-                r = 0;
-                g = 0;
-                b = 0;
-                a = value;
-            }
-            else if(flag &0x8)
-            {
-                r = 0;
-                g = 215;
-                b = 0;
-                a = value;
-            }
-            else
-            {
-                r=(Uint8) ((color & 0xff0000) >>16);
-                g=(Uint8) ((color & 0xff00)>>8);
-                b=(Uint8) ((color & 0xff));
-                a = value;
+                Uint8 r, g, b, a;
+                if (flag & 0x4) {
+                    r = 0;
+                    g = 0;
+                    b = 0;
+                    a = value;
+                } else if (flag & 0x8) {
+                    r = 0;
+                    g = 215;
+                    b = 0;
+                    a = value;
+                } else {
+                    r = (Uint8) ((color & 0xff0000) >> 16);
+                    g = (Uint8) ((color & 0xff00) >> 8);
+                    b = (Uint8) ((color & 0xff));
+                    a = value;
 
-            }
-            SDL_SetTextureBlendMode(lps, SDL_BLENDMODE_BLEND);
-            SDL_SetTextureColorMod(lps,r,g,b);
-            SDL_SetTextureAlphaMod(lps,(Uint8)a);
-            RenderToTexture(lps, NULL, g_Texture, &rect, rotate, NULL, reversal);
+                }
 
-            SDL_SetTextureColorMod(lps,255,255,255);
+                SDL_SetTextureBlendMode(lps, SDL_BLENDMODE_BLEND);
+                SDL_SetTextureColorMod(lps, r, g, b);
+                SDL_SetTextureAlphaMod(lps, (Uint8) a);
+                RenderToTexture(lps, NULL, g_Texture, &rect, rotate, NULL, reversal);
 
+                SDL_SetTextureColorMod(lps, 255, 255, 255);
         }
         else
         {
-            SDL_SetTextureColorMod(lps, 255, 255, 255);
             SDL_SetTextureBlendMode(lps, SDL_BLENDMODE_BLEND);
             SDL_SetTextureAlphaMod(lps, (Uint8)value);
             RenderToTexture(lps, NULL, g_Texture, &rect,rotate, NULL, reversal);
