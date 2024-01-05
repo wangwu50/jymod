@@ -67,7 +67,7 @@ public class jymodActivity extends SDLActivity
             if(list.size() == 1){
                 setPath(jyPath,list.get(0));
             } else if (list.size() > 1) {
-                @SuppressLint("HandlerLeak") final Handler mHandler = new Handler() {
+                Handler mHandler = new Handler(this.getMainLooper()) {
                     @Override
                     public void handleMessage(Message msg) {
                         throw new RuntimeException();
@@ -75,12 +75,9 @@ public class jymodActivity extends SDLActivity
                 };
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle("金庸MOD启动器");
-                builder.setItems(list.toArray(new String[list.size()]),new DialogInterface.OnClickListener(){
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        setPath(jyPath,list.get(which));
-                        mHandler.sendMessage(Message.obtain());
-                    }
+                builder.setItems(list.toArray(new String[list.size()]), (dialog, which) -> {
+                    setPath(jyPath,list.get(which));
+                    mHandler.sendMessage(Message.obtain());
                 });
                 builder.setCancelable(false);
                 builder.create().show();
