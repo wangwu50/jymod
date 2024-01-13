@@ -1,4 +1,4 @@
-package com.wangwu.jymod;
+package com.wangwu.jymod54;
 
 import android.Manifest;
 import android.app.Activity;

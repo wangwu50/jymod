@@ -9,7 +9,7 @@ else {
 
 android {
     if (buildAsApplication) {
-        namespace "com.wangwu.jymod"
+        namespace "com.wangwu.jymod54"
     }
     compileSdkVersion 34
     defaultConfig {
@@ -62,7 +62,7 @@ android {
             variant.outputs.each { output ->
                 def outputFile = output.outputFile
                 if (outputFile != null && outputFile.name.endsWith(".aar")) {
-                    def fileName = "com.wangwu.jymod.aar";
+                    def fileName = "com.wangwu.jymod54.aar";
                     output.outputFile = new File(outputFile.parent, fileName);
                 }
             }
