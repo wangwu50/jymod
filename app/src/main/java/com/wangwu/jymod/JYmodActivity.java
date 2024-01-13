@@ -1,4 +1,4 @@
-package com.wangwu.jymod;
+package com.wangwu.jymod52;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
