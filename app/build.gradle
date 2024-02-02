@@ -11,7 +11,8 @@ android {
     if (buildAsApplication) {
         namespace "com.wangwu.jymod"
     }
-    compileSdkVersion 34
+    compileSdk 34
+    ndkVersion "21.3.6528147"
     defaultConfig {
         minSdkVersion 19
         targetSdkVersion 34

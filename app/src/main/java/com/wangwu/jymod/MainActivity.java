@@ -21,7 +21,7 @@ import java.util.List;
 
 public class MainActivity extends Activity {
     private static final int REQUEST_CODE = 1024;
-    private ListView listView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,19 +42,16 @@ public class MainActivity extends Activity {
                 list.add(f.getName());
             }
         }
-        listView = findViewById(R.id.list_view);
+        ListView listView = findViewById(R.id.list_view);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, list);
         listView.setAdapter(adapter);
         Intent intent = new Intent(this, JYmodActivity.class);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                System.out.println(list.get(position));
-                String gamePath=jyPath + "/" + list.get(position)  + "/";
-                intent.putExtra("path", gamePath);
-                startActivity(intent);
-            }
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+            System.out.println(list.get(position));
+            String gamePath=jyPath + "/" + list.get(position)  + "/";
+            intent.putExtra("path", gamePath);
+            startActivity(intent);
         });
 
 
