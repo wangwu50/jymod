@@ -6,9 +6,10 @@ import android.os.Bundle;
 import org.libsdl.app.SDLActivity;
 
 
-public class JYmodActivity extends SDLActivity
+public class JYModActivity extends SDLActivity
 {
     private native void nativeSetGamePath(String path);
+    private String mainLibraries = "main52";
 
     protected String[] getLibraries() {
         return new String[] {
@@ -16,10 +17,14 @@ public class JYmodActivity extends SDLActivity
                 "SDL2_image",
                 "SDL2_ttf",
                 "bass",
-                "lua",
+                "lua52",
+                "lua54",
                 "zlib",
-                "main"
+                mainLibraries
         };
+    }
+    protected String getMainSharedObject() {
+        return "lib" + mainLibraries + ".so";
     }
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +32,17 @@ public class JYmodActivity extends SDLActivity
         Intent intent = getIntent();
         String gamePath = intent.getStringExtra("path");
         nativeSetGamePath(gamePath);
+        String mainLib = intent.getStringExtra("version");
+        System.out.println(mainLib);
+        if (mainLib != null) {
+            switch (mainLib) {
+                case "lua5.2":
+                    mainLibraries = "main52";
+                case "lua5.4":
+                    mainLibraries = "main54";
+                default:
+            }
+        }
     }
 
     @Override

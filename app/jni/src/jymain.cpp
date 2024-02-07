@@ -231,6 +231,8 @@ int main(int argc, char* argv[])
 {
 
     __android_log_print(ANDROID_LOG_VERBOSE, "jymod", "main start");
+    __android_log_print(ANDROID_LOG_VERBOSE, "jymod", "jypath:%s",JY_CurrentPath);
+
 
     //remove(_(DEBUG_FILE));
     //remove(_(ERROR_FILE));    //设置stderr输出到文件
@@ -657,33 +659,7 @@ int LoadLuaFile(const char* filename, int sign, int doFlag)
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_wangwu_jymod_JYmodActivity_nativeSetGamePath(JNIEnv *env, jobject thiz, jstring path){
-    const char *native_path =env->GetStringUTFChars(path,NULL);
-    if (native_path == NULL) {
-        return;
-    }
-
-    JY_CurrentPath = (char*) malloc(strlen(native_path) + 1);
-    strcpy(JY_CurrentPath, native_path);
-    __android_log_print(ANDROID_LOG_INFO, "jy", "set path = %s", JY_CurrentPath);
-    (*env).ReleaseStringUTFChars(path, native_path);
-}
-extern "C"
-JNIEXPORT void JNICALL
-Java_com_wangwu_jymod52_JYmodActivity_nativeSetGamePath(JNIEnv *env, jobject thiz, jstring path){
-    const char *native_path =env->GetStringUTFChars(path,NULL);
-    if (native_path == NULL) {
-        return;
-    }
-
-    JY_CurrentPath = (char*) malloc(strlen(native_path) + 1);
-    strcpy(JY_CurrentPath, native_path);
-    __android_log_print(ANDROID_LOG_INFO, "jy", "set path = %s", JY_CurrentPath);
-    (*env).ReleaseStringUTFChars(path, native_path);
-}
-extern "C"
-JNIEXPORT void JNICALL
-Java_com_wangwu_jymod54_JYmodActivity_nativeSetGamePath(JNIEnv *env, jobject thiz, jstring path){
+Java_com_wangwu_jymod_JYModActivity_nativeSetGamePath(JNIEnv *env, jobject thiz, jstring path){
     const char *native_path =env->GetStringUTFChars(path,NULL);
     if (native_path == NULL) {
         return;

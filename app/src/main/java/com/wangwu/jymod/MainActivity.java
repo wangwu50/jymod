@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -45,7 +46,7 @@ public class MainActivity extends Activity {
         ListView listView = findViewById(R.id.list_view);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, list);
         listView.setAdapter(adapter);
-        Intent intent = new Intent(this, JYmodActivity.class);
+        Intent intent = new Intent(this, JYModActivity.class);
 
         listView.setOnItemClickListener((parent, view, position, id) -> {
             System.out.println(list.get(position));
@@ -53,7 +54,24 @@ public class MainActivity extends Activity {
             intent.putExtra("path", gamePath);
             startActivity(intent);
         });
+        Spinner spinner = findViewById(R.id.spinner);
+        String[] items = {"lua5.2", "lua5.4"};
+        ArrayAdapter<String> adapter2 = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, items);
+        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter2);
+        spinner.setSelection(0);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedItem = parent.getItemAtPosition(position).toString();
+                intent.putExtra("version", selectedItem);
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
     }
     private void requestPermission() {
