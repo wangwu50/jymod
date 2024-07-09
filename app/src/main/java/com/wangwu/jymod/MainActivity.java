@@ -10,14 +10,22 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.Settings;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.attribute.BasicFileAttributeView;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.nio.file.attribute.FileTime;
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends Activity {
     private static final int REQUEST_CODE = 1024;
@@ -37,6 +45,18 @@ public class MainActivity extends Activity {
         File[] files = jyPathFile.listFiles();
         final List<String> list = new ArrayList<String>();
         assert files != null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+        // 按最后修改时间排序
+        Arrays.sort(files, (f1, f2) -> {
+            try {
+                BasicFileAttributes attr1 = Files.readAttributes(f1.toPath(), BasicFileAttributes.class);
+                BasicFileAttributes attr2 = Files.readAttributes(f2.toPath(), BasicFileAttributes.class);
+                return attr2.lastAccessTime().compareTo(attr1.lastAccessTime());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        }
         for(File f : files){
             if(f.canRead() && f.isDirectory()){
                 list.add(f.getName());
@@ -47,9 +67,20 @@ public class MainActivity extends Activity {
         listView.setAdapter(adapter);
         Intent intent = new Intent(this, JYmodActivity.class);
 
+
         listView.setOnItemClickListener((parent, view, position, id) -> {
             System.out.println(list.get(position));
             String gamePath=jyPath + "/" + list.get(position)  + "/";
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                FileTime newAccessTime = FileTime.from(Instant.ofEpochSecond(System.currentTimeMillis() - TimeUnit.DAYS.toMillis(1)));
+                Path gameFile = Paths.get(gamePath);
+                BasicFileAttributeView attributes = Files.getFileAttributeView(gameFile, BasicFileAttributeView.class);
+                try {
+                    attributes.setTimes(null,newAccessTime,null);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
             intent.putExtra("path", gamePath);
             startActivity(intent);
         });
