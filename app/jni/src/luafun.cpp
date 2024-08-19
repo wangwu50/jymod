@@ -11,7 +11,7 @@
 #include "mainmap.h"
 #include "ParticleExample.h"
 
-//ÒÔÏÂÎªËùÓÐ°ü×°µÄlua½Ó¿Úº¯Êý£¬¶ÔÓ¦ÓÚÃ¿¸öÊµ¼ÊµÄº¯Êý
+//ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½Ð°ï¿½×°ï¿½ï¿½luaï¿½Ó¿Úºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½Ã¿ï¿½ï¿½Êµï¿½ÊµÄºï¿½ï¿½ï¿½
 
 int HAPI_DrawStr(lua_State* pL)
 {
@@ -83,7 +83,7 @@ int HAPI_LoadPicture(lua_State* pL)
     int x = (int)lua_tonumber(pL, 2);
     int y = (int)lua_tonumber(pL, 3);
     int n = lua_gettop(pL);
-    //À¶ÑÌÇå£º´«Èë±ÈÀý
+    //ï¿½ï¿½ï¿½ï¿½ï¿½å£ºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     int percent = 0;
     if (n > 3)
     {
@@ -236,12 +236,12 @@ int HAPI_PicInit(lua_State* pL)
 
 int HAPI_PicLoadFile(lua_State* pL)
 {
-    int n = lua_gettop(pL);         //µÃµ½²ÎÊýµÄ³¤¶È
+    int n = lua_gettop(pL);         //ï¿½Ãµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä³ï¿½ï¿½ï¿½
     const char* idx = lua_tostring(pL, 1);
     const char* grp = lua_tostring(pL, 2);
     int id = (int)lua_tonumber(pL, 3);
 
-    //À¶ÑÌÇå£º´«Èë±ÈÀý
+    //ï¿½ï¿½ï¿½ï¿½ï¿½å£ºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     int percent = 0;
     if (n > 3)
     {
@@ -289,12 +289,12 @@ int HAPI_LoadPic(lua_State* pL)
     {
         height = (int)lua_tonumber(pL, 9);
     }
-    //Ðý×ª
+    //ï¿½ï¿½×ª
     if (lua_isnoneornil(pL, 10) == 0)
     {
         rotate = (double)lua_tonumber(pL, 10);
     }
-    //·´×ª
+    //ï¿½ï¿½×ª
     if (lua_isnoneornil(pL, 11) == 0)
     {
         fz = (int)lua_tonumber(pL, 11);
@@ -307,7 +307,7 @@ int HAPI_LoadPic(lua_State* pL)
     {
         reversal = SDL_FLIP_VERTICAL;
     }
-    //·´×ª
+    //ï¿½ï¿½×ª
     if (lua_isnoneornil(pL, 12) == 0)
     {
         percent = (int)lua_tonumber(pL, 12);
@@ -528,7 +528,7 @@ int HAPI_CleanWarMap(lua_State* pL)
 
 int HAPI_DrawWarMap(lua_State* pL)
 {
-    int n = lua_gettop(pL);         //µÃµ½²ÎÊýµÄ³¤¶È
+    int n = lua_gettop(pL);         //ï¿½Ãµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä³ï¿½ï¿½ï¿½
     int flag = (int)lua_tonumber(pL, 1);
     int x = (int)lua_tonumber(pL, 2);
     int y = (int)lua_tonumber(pL, 3);
@@ -558,7 +558,7 @@ int HAPI_DrawWarMap(lua_State* pL)
     return 0;
 }
 
-int HAPI_SaveSur(lua_State* pL)         //±£´æÆÁÄ»µ½ÁÙÊ±±íÃæ
+int HAPI_SaveSur(lua_State* pL)         //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä»ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½
 {
     int x = (int)lua_tonumber(pL, 1);
     int y = (int)lua_tonumber(pL, 2);
@@ -569,7 +569,7 @@ int HAPI_SaveSur(lua_State* pL)         //±£´æÆÁÄ»µ½ÁÙÊ±±íÃæ
     return 1;
 }
 
-int HAPI_LoadSur(lua_State* pL)             //¼ÓÔØÁÙÊ±±íÃæµ½ÆÁÄ»
+int HAPI_LoadSur(lua_State* pL)             //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½æµ½ï¿½ï¿½Ä»
 {
     int id = (int)lua_tonumber(pL, 1);
     int x = (int)lua_tonumber(pL, 2);
@@ -578,28 +578,28 @@ int HAPI_LoadSur(lua_State* pL)             //¼ÓÔØÁÙÊ±±íÃæµ½ÆÁÄ»
     return 0;
 }
 
-int HAPI_FreeSur(lua_State* pL)                 //ÊÍ·Å
+int HAPI_FreeSur(lua_State* pL)                 //ï¿½Í·ï¿½
 {
     int id = (int)lua_tonumber(pL, 1);
     JY_FreeSur(id);
     return 0;
 }
 
-int HAPI_ScreenWidth(lua_State* pL)             //ÆÁÄ»¿í¶È
+int HAPI_ScreenWidth(lua_State* pL)             //ï¿½ï¿½Ä»ï¿½ï¿½ï¿½
 {
     lua_pushinteger(pL, g_ScreenW);
     return 1;
 }
 
-int HAPI_ScreenHeight(lua_State* pL)            //ÆÁÄ»¸ß¶È
+int HAPI_ScreenHeight(lua_State* pL)            //ï¿½ï¿½Ä»ï¿½ß¶ï¿½
 {
     lua_pushinteger(pL, g_ScreenH);
     return 1;
 }
 
-int HAPI_LoadPNGPath(lua_State* pL)             //°´Í¼Æ¬¶ÁÈ¡PNG
+int HAPI_LoadPNGPath(lua_State* pL)             //ï¿½ï¿½Í¼Æ¬ï¿½ï¿½È¡PNG
 {
-    int n = lua_gettop(pL);         //µÃµ½²ÎÊýµÄ³¤¶È
+    int n = lua_gettop(pL);         //ï¿½Ãµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä³ï¿½ï¿½ï¿½
     const char* path = lua_tostring(pL, 1);
     int fileid = (int)lua_tonumber(pL, 2);
     int num = (int)lua_tonumber(pL, 3);
@@ -620,9 +620,9 @@ int HAPI_LoadPNGPath(lua_State* pL)             //°´Í¼Æ¬¶ÁÈ¡PNG
 
     return 0;
 }
-int HAPI_LoadPNG(lua_State* pL)             //°´Í¼Æ¬¶ÁÈ¡PNG
+int HAPI_LoadPNG(lua_State* pL)             //ï¿½ï¿½Í¼Æ¬ï¿½ï¿½È¡PNG
 {
-    int n = lua_gettop(pL);			//µÃµ½²ÎÊýµÄ³¤¶È
+    int n = lua_gettop(pL);			//ï¿½Ãµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä³ï¿½ï¿½ï¿½
     int fileid=(int)lua_tonumber(pL,1);
     int picid=(int)lua_tonumber(pL,2);
     int x=(int)lua_tonumber(pL,3);
@@ -656,12 +656,12 @@ int HAPI_LoadPNG(lua_State* pL)             //°´Í¼Æ¬¶ÁÈ¡PNG
     if(lua_isnoneornil(pL, 12) == 0){
         height=(int)lua_tonumber(pL,12);
     }
-    //Ðý×ª
+    //ï¿½ï¿½×ª
     if (lua_isnoneornil(pL, 13) == 0)
     {
         rotate = (double)lua_tonumber(pL, 10);
     }
-    //·´×ª
+    //ï¿½ï¿½×ª
     if (lua_isnoneornil(pL, 14) == 0)
     {
         fz = (int)lua_tonumber(pL, 11);
@@ -674,7 +674,7 @@ int HAPI_LoadPNG(lua_State* pL)             //°´Í¼Æ¬¶ÁÈ¡PNG
     {
         reversal = SDL_FLIP_VERTICAL;
     }
-    //·´×ª
+    //ï¿½ï¿½×ª
     if (lua_isnoneornil(pL, 15) == 0)
     {
         percent = (int)lua_tonumber(pL, 12);
@@ -700,8 +700,8 @@ int HAPI_GetPNGXY(lua_State* pL)
     return 4;
 }
 
-// byteÊý×éluaº¯Êý
-/*  lua µ÷ÓÃÐÎÊ½£º(×¢Òâ£¬Î»ÖÃ¶¼ÊÇ´Ó0¿ªÊ¼
+// byteï¿½ï¿½ï¿½ï¿½luaï¿½ï¿½ï¿½ï¿½
+/*  lua ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê½ï¿½ï¿½(×¢ï¿½â£¬Î»ï¿½Ã¶ï¿½ï¿½Ç´ï¿½0ï¿½ï¿½Ê¼
      handle=Byte_create(size);
      Byte_release(h);
      handle=Byte_loadfile(h,filename,start,length);
@@ -719,7 +719,7 @@ int HAPI_GetPNGXY(lua_State* pL)
 int Byte_create(lua_State* pL)
 {
     int x = (int)lua_tonumber(pL, 1);
-    char* p = (char*)lua_newuserdata(pL, x);                 //´´½¨userdata£¬²»ÐèÒªÊÍ·ÅÁË¡£
+    char* p = (char*)lua_newuserdata(pL, x);                 //ï¿½ï¿½ï¿½ï¿½userdataï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½Í·ï¿½ï¿½Ë¡ï¿½
     int i;
 
     if (p == NULL)
@@ -774,13 +774,18 @@ int Byte_loadfilefromzip(lua_State* pL)
     char* p = (char*)lua_touserdata(pL, 1);
     const char* filenamezip = lua_tostring(pL, 2);
     const char* filename = lua_tostring(pL, 3);
+    const char* remainingPath = filename + strlen(JY_CurrentPath);
+    size_t newLength = strlen(remainingPath) + 3;
+    char* newPath = new char[newLength];
+    strcpy(newPath, "./");
+    strcat(newPath, remainingPath);
     int start = (int)lua_tonumber(pL, 4);
     int length = (int)lua_tonumber(pL, 5);
 
     unzFile zip;
     unz_file_info zi = { 0 };
     zip = unzOpen(filenamezip);
-    if (unzLocateFile(zip, filename, NULL) != UNZ_OK)
+    if (unzLocateFile(zip, newPath, NULL) != UNZ_OK)
     {
         return 0;
     }
@@ -804,6 +809,7 @@ int Byte_loadfilefromzip(lua_State* pL)
     memcpy(p, (char*)buf2 + start, length);
     free(buf);
     free(buf2);
+    delete[] newPath;
     return 0;
 }
 
@@ -836,8 +842,13 @@ int Byte_unzip(lua_State* pL)
     for (i = 2; i <= n; i++)
     {
         const char* filename = lua_tostring(pL, i);
+        const char* remainingPath = filename + strlen(JY_CurrentPath);
+        size_t newLength = strlen(remainingPath) + 3;
+        char* newPath = new char[newLength];
+        strcpy(newPath, "./");
+        strcat(newPath, remainingPath);
         unz_file_info zi = { 0 };
-        if (unzLocateFile(zip, filename, NULL) != UNZ_OK)
+        if (unzLocateFile(zip, newPath, NULL) != UNZ_OK)
         {
             break;
         }
@@ -863,6 +874,7 @@ int Byte_unzip(lua_State* pL)
         }
         fclose(fp);
         free(buf);
+        delete[] newPath;
     }
     unzClose(zip);
     return 0;
@@ -878,6 +890,11 @@ int Byte_zip(lua_State* pL)
     for (i = 2; i <= n; i++)
     {
         const char* filename = lua_tostring(pL, i);
+        const char* remainingPath = filename + strlen(JY_CurrentPath);
+        size_t newLength = strlen(remainingPath) + 3;
+        char* newPath = new char[newLength];
+        strcpy(newPath, "./");
+        strcat(newPath, remainingPath);
         FILE* fp;
         if ((fp = fopen(filename, "rb")) == NULL)
         {
@@ -891,10 +908,11 @@ int Byte_zip(lua_State* pL)
         fclose(fp);
         //get_file_date(filenamezip, &zi.dos_date);
         //zi.dos_date = time(NULL);
-        zipOpenNewFileInZip(zip, filename, &zi, NULL, 0, NULL, 0, NULL, Z_DEFLATED, Z_DEFAULT_COMPRESSION);
+        zipOpenNewFileInZip(zip, newPath, &zi, NULL, 0, NULL, 0, NULL, Z_DEFLATED, Z_DEFAULT_COMPRESSION);
         zipWriteInFileInZip(zip, s, length);
         zipCloseFileInZip(zip);
         free(s);
+        delete[] newPath;
     }
     zipClose(zip, NULL);
     return 0;
