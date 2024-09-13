@@ -36,6 +36,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         requestPermission();
+        AssetHelper.copyModsToJymodIfNotExists(this);
         final String path = Environment.getExternalStorageDirectory().getPath();
         String jyPath = path +"/jymod";
         File jyPathFile = new File(jyPath);
@@ -46,7 +47,7 @@ public class MainActivity extends Activity {
         final List<String> list = new ArrayList<String>();
         assert files != null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-        // °´×îºóÐÞ¸ÄÊ±¼äÅÅÐò
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Þ¸ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         Arrays.sort(files, (f1, f2) -> {
             try {
                 BasicFileAttributes attr1 = Files.readAttributes(f1.toPath(), BasicFileAttributes.class);
