@@ -8,6 +8,7 @@ else {
 }
 
 android {
+    ndkVersion "21.4.7075529"
     if (buildAsApplication) {
         namespace "com.wangwu.jymod"
     }
