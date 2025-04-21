@@ -1,4 +1,3 @@
-
 // 主程序
 // 本程序为游泳的鱼编写。
 // 版权所无，您可以以任何方式使用代码
@@ -406,7 +405,6 @@ int Lua_Config(lua_State* pL_main,const char* filename)
 
     g_KeyRepeatDelay =getfield(pL_main, "KeyRepeatDelay");
     g_KeyRePeatInterval =getfield(pL_main, "KeyRePeatInterval");
-    g_Control = getfield(pL_main, "ControlType");
     return 0;
 }
 
@@ -693,4 +691,11 @@ Java_com_wangwu_jymod54_JYmodActivity_nativeSetGamePath(JNIEnv *env, jobject thi
     strcpy(JY_CurrentPath, native_path);
     __android_log_print(ANDROID_LOG_INFO, "jy", "set path = %s", JY_CurrentPath);
     (*env).ReleaseStringUTFChars(path, native_path);
+}
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_wangwu_jymod_JYmodActivity_nativeSetControlType(JNIEnv *env, jobject thiz, jint type) {
+    g_Control = type;
+    JY_Debug("Set control type to %d", type);
 }

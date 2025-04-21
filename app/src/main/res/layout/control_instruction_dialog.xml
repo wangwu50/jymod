@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/black"
+        android:padding="1dp"
+        android:stretchColumns="*">
+
+        <!-- 第一行：S键和H键，取消 -->
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="1dp"
+                android:background="@android:color/white"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="S键"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="1dp"
+                android:background="@android:color/white"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="H键"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="1dp"
+                android:background="@android:color/white"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="取消"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+        </TableRow>
+
+        <!-- 第二行：方向控制和回车 -->
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_span="2"
+                android:layout_margin="1dp"
+                android:background="@android:color/white"
+                android:gravity="center"
+                android:minHeight="100dp"
+                android:padding="8dp"
+                android:text="方向控制，划动控制"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="1dp"
+                android:background="@android:color/white"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="回车"
+                android:textSize="16sp" />
+        </TableRow>
+
+    </TableLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:text="请参考上面位置进行操作"
+        android:textSize="16sp"
+        android:textColor="#666666" />
+
+</LinearLayout> 
