@@ -699,3 +699,15 @@ Java_com_wangwu_jymod_JYmodActivity_nativeSetControlType(JNIEnv *env, jobject th
     g_Control = type;
     JY_Debug("Set control type to %d", type);
 }
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_wangwu_jymod52_JYmodActivity_nativeSetControlType(JNIEnv *env, jobject thiz, jint type) {
+    g_Control = type;
+    JY_Debug("Set control type to %d", type);
+}
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_wangwu_jymod54_JYmodActivity_nativeSetControlType(JNIEnv *env, jobject thiz, jint type) {
+    g_Control = type;
+    JY_Debug("Set control type to %d", type);
+}
