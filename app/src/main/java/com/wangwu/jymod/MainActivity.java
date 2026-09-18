@@ -13,6 +13,8 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.Settings;
 import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.Spinner;
 import java.io.File;
@@ -35,6 +37,15 @@ public class MainActivity extends Activity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         controls.setAdapter(adapter);
         controls.setSelection(prefs.getInt("control_type", 0) == 1 ? 1 : 0);
+        controls.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                prefs.edit().putInt("control_type", position).apply();
+                if (position == 1 && !prefs.getBoolean("dont_show_instruction", false)) {
+                    showControlInstructionDialog();
+                }
+            }
+            @Override public void onNothingSelected(AdapterView<?> parent) {}
+        });
         if (!hasStorageAccess()) {
             if (Build.VERSION.SDK_INT >= 30) {
                 Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION,
@@ -45,6 +56,15 @@ public class MainActivity extends Activity {
                     Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1024);
             }
         }
+    }
+    private void showControlInstructionDialog() {
+        new AlertDialog.Builder(this)
+            .setTitle("操作说明")
+            .setView(getLayoutInflater().inflate(R.layout.control_instruction_dialog, null))
+            .setPositiveButton("确定", null)
+            .setNeutralButton("不再提示", (dialog, which) ->
+                prefs.edit().putBoolean("dont_show_instruction", true).apply())
+            .show();
     }
     private boolean hasStorageAccess() {
         if (Build.VERSION.SDK_INT >= 30) return Environment.isExternalStorageManager();
