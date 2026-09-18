@@ -4,7 +4,7 @@
 
 ## 使用
 
-正式版包名 `com.wangwu.jymod`，应用名“金庸mod启动器”，versionCode 4 / versionName 1.11。使用独立发布签名；覆盖安装要求包名、签名证书相同且版本号不低于旧包。双 Lua 预览版使用不同包名，可共存。
+正式版包名 `com.wangwu.jymod`，应用名“金庸mod启动器”，versionCode 5 / versionName 1.11。使用独立发布签名；覆盖安装要求包名、签名证书相同且版本号不低于旧包。双 Lua 预览版使用不同包名，可共存。
 
 将适用于 jymod 的 MOD 放在内部存储 `/jymod/`。按应用界面申请的存储权限自行授权，然后点击 MOD 直接启动。版本优先级：长按手动保存的选择 > info.txt 中的 [LUA]=LUA52/LUA54 > 文件夹前缀 [52]/[54] > 默认5.2。需要调整时长按 MOD，选择版本并开始；按 MOD 路径记忆手动选择，不自动覆盖为推断值。控制方式继续支持有按键/无按键。原包与测试包会读取同一外部 MOD 目录，因此使用实际游戏前请备份进度。
 
@@ -23,7 +23,7 @@
 
 ## 构建
 
-当前发行包仅 ARM64。当前验证环境：Gradle 8.9、AGP 8.2.2、Android SDK 34、NDK 27.1.12297006、Android Studio 自带 JBR。minSdk 21 / targetSdk 28 沿用旧式文件访问兼容策略，不是商店上架配置。
+当前发行包包含 armeabi-v7a、arm64-v8a、x86、x86_64 四种架构。当前验证环境：Gradle 8.9、AGP 8.2.2、Android SDK 34、NDK 27.1.12297006、Android Studio 自带 JBR。minSdk 21 / targetSdk 28 沿用旧式文件访问兼容策略，不是商店上架配置。
 
 设置 local.properties 中 sdk.dir，并配置 JAVA_HOME 后执行：
 
@@ -58,8 +58,8 @@ export JAVA_HOME=/path/to/jdk
 export JYMOD_KEYSTORE=/private/path/jymod-release.jks
 export JYMOD_PASSWORD_FILE=/private/path/store-password.txt
 # 默认 alias 为 jymod-release；密码文件为单行，store/key 密码相同。
-tools/sign-release.sh app/build/outputs/apk/release/app-release-unsigned.apk /path/to/jymod-1.11-arm64.apk
-python3 tests/verify_apk.py /path/to/jymod-1.11-arm64.apk
+tools/sign-release.sh app/build/outputs/apk/release/app-release-unsigned.apk /path/to/jymod-1.11-universal.apk
+python3 tests/verify_apk.py /path/to/jymod-1.11-universal.apk
 ```
 
 发布签名、密码和 APK 不存入仓库。妥善备份 keystore 和密码；后续升级需继续使用同一签名。Release 构建不包含 debug instrumentation / 测试资源，未开启 debuggable，不使用 debug 签名。
@@ -75,3 +75,9 @@ python3 tests/verify_apk.py /path/to/jymod-1.11-arm64.apk
 ## 1.11 版本号更正
 
 旧的独立 Lua 5.2 / 5.4 应用已经发布到 1.10；双 Lua 初版误沿用仓库旧版本号，标为了 1.7 / 1.7.1。本版统一更正为 1.11，versionCode 升为 4。包名和发布签名不变，可覆盖升级双 Lua 正式版 1.7 / 1.7.1，保留设置和游玩排序记录。游戏逻辑未改动。
+
+## 1.11 发布前修复：恢复四架构通用包
+
+恢复 armeabi-v7a、arm64-v8a、x86、x86_64，每种架构都包含 Lua 5.2 / 5.4 及匹配的引擎。versionCode 5，沿用包名和发布签名，可覆盖此前 versionCode 4 的 1.11 ARM64 测试包。最低系统仍为 Android 5.0（API 21），NDK 27 不支持 API 19；本次不恢复 Android 4.4。
+
+`tests/verify_apk.py` 检查四种 ABI 的 ELF 位数/架构、库完整性、双 Lua 依赖和 SDL/JNI 入口。此前运行测试覆盖 ARM64，其他架构需在对应设备上继续验证完整 MOD。
