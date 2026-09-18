@@ -49,6 +49,7 @@
         android:usesCleartextTraffic="true">
         <activity
             android:name=".MainActivity"
+            android:screenOrientation="landscape"
             android:exported="true"
             android:alwaysRetainTaskState="true"
             android:configChanges="layoutDirection|locale|orientation|uiMode|screenLayout|screenSize|smallestScreenSize|keyboard|keyboardHidden|navigation"
@@ -65,26 +66,12 @@
          Example of setting SDL hints from AndroidManifest.xml:
         <meta-data android:name="SDL_ENV.SDL_ACCELEROMETER_AS_JOYSTICK" android:value="0"/>
         -->
-        <activity
-            android:name=".JYmodActivity"
-            android:alwaysRetainTaskState="true"
-            android:configChanges="layoutDirection|locale|orientation|uiMode|screenLayout|screenSize|smallestScreenSize|keyboard|keyboardHidden|navigation"
-            android:exported="true"
-            android:launchMode="singleInstance"
-            android:preferMinimalPostProcessing="true">
-            <!-- Let Android know that we can handle some USB devices and should receive this event -->
-            <intent-filter>
-                <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />
-            </intent-filter>
-            <!-- Drop file event -->
-            <!--
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <data android:mimeType="*/*" />
-            </intent-filter>
-            -->
-        </activity>
+        <activity android:name=".Lua52Activity" android:process=":lua52"
+            android:exported="false" android:screenOrientation="landscape"
+            android:configChanges="orientation|screenSize|keyboardHidden|keyboard|navigation|uiMode|screenLayout|smallestScreenSize" />
+        <activity android:name=".Lua54Activity" android:process=":lua54"
+            android:exported="false" android:screenOrientation="landscape"
+            android:configChanges="orientation|screenSize|keyboardHidden|keyboard|navigation|uiMode|screenLayout|smallestScreenSize" />
     </application>
 
 </manifest>

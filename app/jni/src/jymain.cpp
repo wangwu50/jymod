@@ -251,6 +251,7 @@ int main(int argc, char* argv[])
     JY_Debug("user config: %s",configFilename);
 
     pL_main = luaL_newstate();
+    JY_Debug("Dual runtime compiled against %s", LUA_VERSION);
     luaL_openlibs(pL_main);
 
     //×¢²áluaº¯Êý

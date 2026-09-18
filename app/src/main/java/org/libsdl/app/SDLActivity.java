@@ -179,7 +179,7 @@ public class SDLActivity extends Activity {
                     @Override
                     public void onClick(DialogInterface dialog,int id) {
                         // if this button is clicked, close current activity
-                        SDLActivity.mSingleton.finish();
+                        SDLActivity.this.finish();
                     }
                 });
            dlgAlert.setCancelable(false);

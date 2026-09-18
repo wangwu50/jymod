@@ -8,8 +8,6 @@ LOCAL_C_INCLUDES += $(LOCAL_PATH)/../zlib
 
 LOCAL_SRC_FILES := \
     ioapi.c           \
-    miniunz.c       \
-    minizip.c       \
     mztools.c       \
     unzip.c       \
     zip.c      
