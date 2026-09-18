@@ -68,7 +68,10 @@ public class MainActivity extends Activity {
         if (hasStorageAccess()) root.mkdirs();
         File[] files = root.listFiles(File::isDirectory);
         if (files == null) files = new File[0];
-        Arrays.sort(files, (a,b) -> a.getName().compareToIgnoreCase(b.getName()));
+        Arrays.sort(files, (a,b) -> {
+            int recent = Long.compare(lastPlayedOrder(b), lastPlayedOrder(a));
+            return recent != 0 ? recent : a.getName().compareToIgnoreCase(b.getName());
+        });
         ArrayList<File> mods = new ArrayList<>();
         ArrayList<String> labels = new ArrayList<>();
         for (File f : files) if (f.canRead()) { mods.add(f); labels.add(f.getName()); }
@@ -81,6 +84,15 @@ public class MainActivity extends Activity {
         list.setOnItemLongClickListener((parent,view,position,id) -> {
             chooseVersion(mods.get(position)); return true;
         });
+    }
+    private long lastPlayedOrder(File mod) {
+        return prefs.getLong("last_played:" + mod.getAbsolutePath(), 0L);
+    }
+    private void recordPlayed(File mod) {
+        // A persistent sequence keeps ordering stable even if the device clock changes.
+        long order = prefs.getLong("play_sequence", 0L) + 1L;
+        prefs.edit().putLong("play_sequence", order)
+            .putLong("last_played:" + mod.getAbsolutePath(), order).apply();
     }
     private void chooseVersion(File mod) {
         final String path;
@@ -116,6 +128,7 @@ public class MainActivity extends Activity {
             Intent intent=new Intent(this,"54".equals(version)?Lua54Activity.class:Lua52Activity.class);
             intent.putExtra("path",path).putExtra("control_type",control);
             startActivity(intent);
+            recordPlayed(mod);
         } catch(IOException e) {
             new AlertDialog.Builder(this).setMessage(e.getMessage()).setPositiveButton("确定",null).show();
         }
