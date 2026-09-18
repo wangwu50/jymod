@@ -1,10 +1,10 @@
-# 双 Lua 1.7.1
+# 双 Lua 1.11
 
 同一 APK 内置 Lua 5.2 和 Lua 5.4，启动器按 MOD 选择运行时。
 
 ## 使用
 
-正式版包名 `com.wangwu.jymod`，应用名“金庸mod启动器”，versionCode 3 / versionName 1.7.1。使用独立发布签名；覆盖安装要求包名、签名证书相同且版本号不低于旧包。双 Lua 预览版使用不同包名，可共存。
+正式版包名 `com.wangwu.jymod`，应用名“金庸mod启动器”，versionCode 4 / versionName 1.11。使用独立发布签名；覆盖安装要求包名、签名证书相同且版本号不低于旧包。双 Lua 预览版使用不同包名，可共存。
 
 将适用于 jymod 的 MOD 放在内部存储 `/jymod/`。按应用界面申请的存储权限自行授权，然后点击 MOD 直接启动。版本优先级：长按手动保存的选择 > info.txt 中的 [LUA]=LUA52/LUA54 > 文件夹前缀 [52]/[54] > 默认5.2。需要调整时长按 MOD，选择版本并开始；按 MOD 路径记忆手动选择，不自动覆盖为推断值。控制方式继续支持有按键/无按键。原包与测试包会读取同一外部 MOD 目录，因此使用实际游戏前请备份进度。
 
@@ -58,8 +58,8 @@ export JAVA_HOME=/path/to/jdk
 export JYMOD_KEYSTORE=/private/path/jymod-release.jks
 export JYMOD_PASSWORD_FILE=/private/path/store-password.txt
 # 默认 alias 为 jymod-release；密码文件为单行，store/key 密码相同。
-tools/sign-release.sh app/build/outputs/apk/release/app-release-unsigned.apk /path/to/jymod-1.7.1-arm64.apk
-python3 tests/verify_apk.py /path/to/jymod-1.7.1-arm64.apk
+tools/sign-release.sh app/build/outputs/apk/release/app-release-unsigned.apk /path/to/jymod-1.11-arm64.apk
+python3 tests/verify_apk.py /path/to/jymod-1.11-arm64.apk
 ```
 
 发布签名、密码和 APK 不存入仓库。妥善备份 keystore 和密码；后续升级需继续使用同一签名。Release 构建不包含 debug instrumentation / 测试资源，未开启 debuggable，不使用 debug 签名。
@@ -71,3 +71,7 @@ python3 tests/verify_apk.py /path/to/jymod-1.7.1-arm64.apk
 启动 MOD 后记录独立的持久化顺序号，最近启动的 MOD 排在列表顶部；普通点击与长按选择 Lua 后启动共用记录逻辑。返回首页及重启应用时重新排序。未记录的 MOD 按名称排序。仅打开版本选择框或取消不会更改顺序。不依赖设备时钟或修改 MOD 文件的访问时间。1.7 未保存游玩历史，因此升级后需启动一次 MOD 才会记录其新顺序。
 
 恢复无按键模式的原操作说明和“不再提示”选项，沿用原偏好键；切换控制方式后立即记忆，取消或尚未启动 MOD 也会保留设置。
+
+## 1.11 版本号更正
+
+旧的独立 Lua 5.2 / 5.4 应用已经发布到 1.10；双 Lua 初版误沿用仓库旧版本号，标为了 1.7 / 1.7.1。本版统一更正为 1.11，versionCode 升为 4。包名和发布签名不变，可覆盖升级双 Lua 正式版 1.7 / 1.7.1，保留设置和游玩排序记录。游戏逻辑未改动。
